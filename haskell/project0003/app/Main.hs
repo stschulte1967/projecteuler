@@ -14,13 +14,13 @@ largestFactor n | n < 1 = error "Input must be a positive integer"
 largestFactorUnsafe :: Integer -> Integer
 largestFactorUnsafe 1 = 1
 largestFactorUnsafe 2 = 2
-largestFactorUnsafe n = head $ lf n 3 [1]
+largestFactorUnsafe n = head $ lf n n 3 [1]
 
-lf :: Integer -> Integer -> [Integer] -> [Integer]
-lf n d acc
-    | product acc == n = acc
-    | even n = lf (n `div` 2) 2 (2:acc)
-    | mod n d == 0 = lf (n `div` d) d (d:acc)
-    | otherwise     = lf n (d + 2) acc
+lf :: Integer -> Integer -> Integer -> [Integer] -> [Integer]
+lf n_orig n d acc
+    | product acc == n_orig = acc
+    | even n = lf n_orig (n `div` 2) (if even (n `div` 2) then 2 else 3) (2:acc)
+    | mod n d == 0 = lf n_orig (n `div` d) d (d:acc)
+    | otherwise     = lf n_orig n (d + 2) acc
 
  
